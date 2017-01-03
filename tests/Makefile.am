@@ -1,5 +1,11 @@
-TESTS = check_form
-check_PROGRAMS = check_form
+TESTS = check_accidence check_form check_word
+check_PROGRAMS = check_accidence check_form check_word
+check_accidence_SOURCES = check_accidence.c
+check_accidence_CFLAGS = @CHECK_CFLAGS@
+check_accidence_LDADD = $(top_builddir)/src/liblatinitas.la @CHECK_LIBS@
 check_form_SOURCES = check_form.c
 check_form_CFLAGS = @CHECK_CFLAGS@
 check_form_LDADD = $(top_builddir)/src/liblatinitas.la @CHECK_LIBS@
+check_word_SOURCES = check_form.c
+check_word_CFLAGS = @CHECK_CFLAGS@
+check_word_LDADD = $(top_builddir)/src/liblatinitas.la @CHECK_LIBS@

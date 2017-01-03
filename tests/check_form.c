@@ -5,22 +5,105 @@
 
 #include <check.h>
 
-START_TEST (check_form_size)
+START_TEST (check_set_accident)
 {
-	ck_assert_int_eq (sizeof_la_form_t(), 3);
+	la_form_t form = 0;
+
+	ck_assert_int_eq (la_get_part_of_speech (form), UNDEFINED);
+	ck_assert_int_eq (la_get_number (form), UNDEFINED);
+	ck_assert_int_eq (la_get_gender (form), UNDEFINED);
+	ck_assert_int_eq (la_get_case (form), UNDEFINED);
+	ck_assert_int_eq (la_get_degree (form), UNDEFINED);
+	ck_assert_int_eq (la_get_voice (form), UNDEFINED);
+	ck_assert_int_eq (la_get_person (form), UNDEFINED);
+	ck_assert_int_eq (la_get_tense (form), UNDEFINED);
+	ck_assert_int_eq (la_get_mood (form), UNDEFINED);
+
+	form = la_set_accident (form, VERB);
+	
+	ck_assert_int_eq (la_get_part_of_speech (form), VERB);
+	ck_assert_int_eq (la_get_number (form), UNDEFINED);
+	ck_assert_int_eq (la_get_gender (form), UNDEFINED);
+	ck_assert_int_eq (la_get_case (form), UNDEFINED);
+	ck_assert_int_eq (la_get_degree (form), UNDEFINED);
+	ck_assert_int_eq (la_get_voice (form), UNDEFINED);
+	ck_assert_int_eq (la_get_person (form), UNDEFINED);
+	ck_assert_int_eq (la_get_tense (form), UNDEFINED);
+	ck_assert_int_eq (la_get_mood (form), UNDEFINED);
+
+	form = la_set_accident (form, PLURAL);
+	
+	ck_assert_int_eq (la_get_part_of_speech (form), VERB);
+	ck_assert_int_eq (la_get_number (form), PLURAL);
+	ck_assert_int_eq (la_get_gender (form), UNDEFINED);
+	ck_assert_int_eq (la_get_case (form), UNDEFINED);
+	ck_assert_int_eq (la_get_degree (form), UNDEFINED);
+	ck_assert_int_eq (la_get_voice (form), UNDEFINED);
+	ck_assert_int_eq (la_get_person (form), UNDEFINED);
+	ck_assert_int_eq (la_get_tense (form), UNDEFINED);
+	ck_assert_int_eq (la_get_mood (form), UNDEFINED);
+
+	form = la_set_accident (form, ACTIVE);
+	
+	ck_assert_int_eq (la_get_part_of_speech (form), VERB);
+	ck_assert_int_eq (la_get_number (form), PLURAL);
+	ck_assert_int_eq (la_get_gender (form), UNDEFINED);
+	ck_assert_int_eq (la_get_case (form), UNDEFINED);
+	ck_assert_int_eq (la_get_degree (form), UNDEFINED);
+	ck_assert_int_eq (la_get_voice (form), ACTIVE);
+	ck_assert_int_eq (la_get_person (form), UNDEFINED);
+	ck_assert_int_eq (la_get_tense (form), UNDEFINED);
+	ck_assert_int_eq (la_get_mood (form), UNDEFINED);
+
+	form = la_set_accident (form, THIRD_PERSON);
+	
+	ck_assert_int_eq (la_get_part_of_speech (form), VERB);
+	ck_assert_int_eq (la_get_number (form), PLURAL);
+	ck_assert_int_eq (la_get_gender (form), UNDEFINED);
+	ck_assert_int_eq (la_get_case (form), UNDEFINED);
+	ck_assert_int_eq (la_get_degree (form), UNDEFINED);
+	ck_assert_int_eq (la_get_voice (form), ACTIVE);
+	ck_assert_int_eq (la_get_person (form), THIRD_PERSON);
+	ck_assert_int_eq (la_get_tense (form), UNDEFINED);
+	ck_assert_int_eq (la_get_mood (form), UNDEFINED);
+
+	form = la_set_accident (form, FUTURE);
+	
+	ck_assert_int_eq (la_get_part_of_speech (form), VERB);
+	ck_assert_int_eq (la_get_number (form), PLURAL);
+	ck_assert_int_eq (la_get_gender (form), UNDEFINED);
+	ck_assert_int_eq (la_get_case (form), UNDEFINED);
+	ck_assert_int_eq (la_get_degree (form), UNDEFINED);
+	ck_assert_int_eq (la_get_voice (form), ACTIVE);
+	ck_assert_int_eq (la_get_person (form), THIRD_PERSON);
+	ck_assert_int_eq (la_get_tense (form), FUTURE);
+	ck_assert_int_eq (la_get_mood (form), UNDEFINED);
+
+	form = la_set_accident (form, INDICATIVE);
+	
+	ck_assert_int_eq (la_get_part_of_speech (form), VERB);
+	ck_assert_int_eq (la_get_number (form), PLURAL);
+	ck_assert_int_eq (la_get_gender (form), UNDEFINED);
+	ck_assert_int_eq (la_get_case (form), UNDEFINED);
+	ck_assert_int_eq (la_get_degree (form), UNDEFINED);
+	ck_assert_int_eq (la_get_voice (form), ACTIVE);
+	ck_assert_int_eq (la_get_person (form), THIRD_PERSON);
+	ck_assert_int_eq (la_get_tense (form), FUTURE);
+	ck_assert_int_eq (la_get_mood (form), INDICATIVE);
+
 }
 END_TEST
 
 START_TEST (check_form_serialization)
 {
-	la_form_t *form = create_form_t();
+	la_form_t form = 0;
 
-	la_set_part_of_speech (form, VERB);
-	la_set_person (form, FIRST_PERSON);
-	la_set_number (form, PLURAL);
-	la_set_tense (form, PERFECT);
-	la_set_voice (form, ACTIVE);
-	la_set_mood (form, INDICATIVE);
+	form = la_set_accident (form, VERB);
+	form = la_set_accident (form, FIRST_PERSON);
+	form = la_set_accident (form, PLURAL);
+	form = la_set_accident (form, PERFECT);
+	form = la_set_accident (form, ACTIVE);
+	form = la_set_accident (form, INDICATIVE);
 
 	uint8_t *buf = la_serialize_form_t (form);
 
@@ -34,15 +117,32 @@ START_TEST (check_form_serialization)
 	 * buf[2] = voice, tense, and mood
 	 * 01 [ACTIVE] 100 [PERFECT] 001 [INDICATIVE] = 0110 0001 = 0x61
 	 */
-	// check buf length
-	ck_assert_int_eq (sizeof(buf) / sizeof (buf[0]), 3);
 
 	ck_assert_int_eq (buf[0], 0x49);
 	ck_assert_int_eq (buf[1], 0x00);
 	ck_assert_int_eq (buf[2], 0x61);
 
 	free (buf);
-	free (form);
+}
+END_TEST
+
+START_TEST (check_form_unserialization)
+{
+	uint8_t buf[3] = { 0x49, 0x00, 0x61 };
+
+	la_form_t form = la_unserialize_form_t (buf);
+
+	ck_assert (form);
+
+	ck_assert_int_eq (la_get_part_of_speech(form), VERB);
+	ck_assert_int_eq (la_get_person(form), FIRST_PERSON);
+	ck_assert_int_eq (la_get_number(form), PLURAL);
+	ck_assert_int_eq (la_get_tense(form), PERFECT);
+	ck_assert_int_eq (la_get_voice(form), ACTIVE);
+	ck_assert_int_eq (la_get_mood(form), INDICATIVE);
+	ck_assert_int_eq (la_get_case(form), UNDEFINED);
+	ck_assert_int_eq (la_get_gender(form), UNDEFINED);
+	ck_assert_int_eq (la_get_degree(form), UNDEFINED);
 }
 END_TEST
 
@@ -58,7 +158,9 @@ main (void)
 	s = suite_create ("form");
 	tc_core = tcase_create ("Core");
 
-	tcase_add_test (tc_core, check_form_size);
+	tcase_add_test (tc_core, check_set_accident);
+	tcase_add_test (tc_core, check_form_serialization);
+	tcase_add_test (tc_core, check_form_unserialization);
 
 	suite_add_tcase (s, tc_core);
 
